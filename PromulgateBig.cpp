@@ -14,6 +14,7 @@ All text above must be included in any redistribution
 *******************/
 
 #include "PromulgateBig.h"
+#include "base64.hpp"
 
 Promulgate::Promulgate() {
   use_base64_parsing = false;
