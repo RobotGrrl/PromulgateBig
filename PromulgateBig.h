@@ -53,6 +53,7 @@ class Promulgate {
 
 		void parse_message(char msg[], uint8_t len);
 		void organize_message(char c);
+		void parse_message64(char msg[], uint8_t len);
 		
 		void transmit_action(char action, char cmd, uint8_t key, uint16_t val, char cmd2, uint8_t key2, uint16_t val2, char delim);
 
