@@ -52,8 +52,8 @@ class Promulgate {
 		void useBase64Parsing(bool b);
 
 		void parse_message(char msg[], uint8_t len);
-		void organize_message(char c);
 		void parse_message64(char msg[], uint8_t len);
+		void organize_message(char c);
 		
 		void transmit_action(char action, char cmd, uint8_t key, uint16_t val, char cmd2, uint8_t key2, uint16_t val2, char delim);
 
@@ -68,13 +68,6 @@ class Promulgate {
 		Stream *in_stream;
 		Stream *out_stream;
 		Stream *debug_stream;
-
-		// typedef enum Outputter {
-		//   HARDWARE_SERIAL,
-		//   SOFTWARE_SERIAL
-		// };
-
-		// Outputter        OUTPUT_METHOD;
 
 		void begin();
 		void reset_buffer();

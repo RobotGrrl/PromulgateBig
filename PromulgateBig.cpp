@@ -17,7 +17,7 @@ All text above must be included in any redistribution
 #include "base64.hpp"
 
 Promulgate::Promulgate() {
-  use_base64_parsing = false;
+  
 }
 
 
@@ -31,6 +31,7 @@ void Promulgate::begin() {
 
   LOG_LEVEL = WARN;
 
+  use_base64_parsing = false;
   set_debug_stream(out_stream);
   reading_message = false;
   ser_len = 0;
@@ -194,9 +195,11 @@ void Promulgate::organize_message(char c) {
     if(c == '!' || c == '?' || c == ';') {
       reading_message = false;
       if(use_base64_parsing) {
-        parse_message(ser, ser_len);
-      } else {
+        //Serial << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PARSING 64 - I DUNNO WHY" << endl;
         parse_message64(ser, ser_len);
+      } else {
+        //Serial << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NOT PARSING 64 - ITS OK" << endl;
+        parse_message(ser, ser_len);
       }
       reset_buffer();
     }
@@ -270,12 +273,7 @@ void Promulgate::parse_message64(char msg[], uint8_t len) {
    
    // get the key number
    uint8_t key = msg[2];
-   uint8_t lb = 2; // index of leading digit
-   uint8_t ub = comma-1; // index of last digit
    
-   //for(uint8_t i=lb; i<=ub; i++) {
-   //  key += ( msg[lb + (i-lb)] - '0') * pow(10, ub-i);
-   //}
    Serial << "key1 = " << key << endl;
 
    // find the next ,
@@ -289,14 +287,7 @@ void Promulgate::parse_message64(char msg[], uint8_t len) {
 
    // get the val number
    uint16_t val = msg[comma+1] + (msg[comma+2] * 256);
-   lb = comma+1;
-   ub = comma2-1;
-
-   //if(find_val) {
-   //  for(uint8_t i=lb; i<=ub; i++) {
-   //    val += ( msg[lb + (i-lb)] - '0' ) * pow(10, ub-i);
-   //  }
-   //}
+   
    Serial << "val1 = " << val << endl;
    
    // get the 2nd command
@@ -313,22 +304,12 @@ void Promulgate::parse_message64(char msg[], uint8_t len) {
 
    // get the 2nd key number
    uint8_t key2 = msg[comma2+2];
-   lb = comma2+2; // index of leading digit
-   ub = comma3-1; // index of last digit
    
-   //for(uint8_t i=lb; i<=ub; i++) {
-   //  key2 += ( msg[lb + (i-lb)] - '0') * pow(10, ub-i);
-   //}
    Serial << "key2 = " << key2 << endl;
 
    // get the 2nd val number
    uint16_t val2 = msg[comma3+1] + (msg[comma3+2] * 256);
-   lb = comma3+1;
-   ub = len-2;
-
-   //for(uint8_t i=lb; i<=ub; i++) {
-   //  val2 += ( msg[lb + (i-lb)] - '0' ) * pow(10, ub-i);
-   //}
+   
    Serial << "val2 = " << val2 << endl;
    
    // get the delimeter
